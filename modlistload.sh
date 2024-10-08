@@ -21,7 +21,7 @@ if [[ -f ${MOD_FILE} ]]; then
     mod_list_workshop=$(echo $allMods | sed -e 's/;/","/g' | sed -e 's/;$//')  # Format for steamcmdplugin
 
     # Replace the mod list in GenericModule.kvp
-    sed -i "s/\(\"mod\"=\)\(\"[^\"]*\"\)/\1\"${mod_list_semicolons}\"/" ${GENERIC_MODULE_FILE}
+    sed -i -E 's/(App\.AppSettings=\{[^}]*)(,"mod"="[^"]*")?/\1,"mod"="'${mod_list_semicolons}'"/' ${GENERIC_MODULE_FILE}
 
     # Replace the mod list in steamcmdplugin.kvp
     sed -i "s/\(SteamWorkshop.WorkshopItemIDs=\)\(\[.*\]\)/\1\[\"${mod_list_workshop}\"\]/" ${STEAMCMD_PLUGIN_FILE}
